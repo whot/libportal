@@ -32,6 +32,8 @@
 #endif
 #include <stdio.h>
 
+gchar PORTAL_BUS_NAME[64] = "org.freedesktop.portal.Desktop";
+
 /**
  * XdpPortal
  *
@@ -102,6 +104,10 @@ static void
 xdp_portal_class_init (XdpPortalClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  const gchar *busname = g_getenv("LIBPORTAL_PORTAL_BUS_NAME");
+
+  if (busname != NULL)
+    g_snprintf(PORTAL_BUS_NAME, sizeof(PORTAL_BUS_NAME), "%s", busname);
 
   object_class->finalize = xdp_portal_finalize;
 

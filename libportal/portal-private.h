@@ -53,7 +53,7 @@ struct _XdpPortal {
   guint screencast_interface_version;
 };
 
-#define PORTAL_BUS_NAME "org.freedesktop.portal.Desktop"
+extern gchar PORTAL_BUS_NAME[];
 #define PORTAL_OBJECT_PATH  "/org/freedesktop/portal/desktop"
 #define REQUEST_PATH_PREFIX "/org/freedesktop/portal/desktop/request/"
 #define SESSION_PATH_PREFIX "/org/freedesktop/portal/desktop/session/"
