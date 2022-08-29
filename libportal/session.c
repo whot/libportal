@@ -50,6 +50,7 @@ static void
 xdp_session_finalize (GObject *object)
 {
   XdpSession *session = XDP_SESSION (object);
+  g_warning ("session finalize");
 
   if (session->signal_id)
     g_dbus_connection_signal_unsubscribe (session->portal->bus, session->signal_id);
@@ -58,6 +59,9 @@ xdp_session_finalize (GObject *object)
   g_clear_pointer (&session->restore_token, g_free);
   g_clear_pointer (&session->id, g_free);
   g_clear_pointer (&session->streams, g_variant_unref);
+  if (session->input_capture_session != NULL)
+    g_critical ("XdpSession destroyed before XdpInputCaptureSesssion, you lost count of your session refs");
+  session->input_capture_session = NULL;
 
   G_OBJECT_CLASS (xdp_session_parent_class)->finalize (object);
 }
@@ -115,6 +119,7 @@ _xdp_session_new (XdpPortal *portal,
   session->id = g_strdup (id);
   session->type = type;
   session->state = XDP_SESSION_INITIAL;
+  session->input_capture_session = NULL;
 
   session->signal_id = g_dbus_connection_signal_subscribe (portal->bus,
                                                            PORTAL_BUS_NAME,
