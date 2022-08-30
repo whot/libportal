@@ -265,7 +265,9 @@ def Enable(self, session_handle, options, sender):
             def send_activated():
                 opts = {}
                 if current_eis_serial is not None:
-                    opts["serial"] = dbus.UInt32(current_eis_serial, variant_level=1)
+                    opts["activation_id"] = dbus.UInt32(
+                        current_eis_serial, variant_level=1
+                    )
 
                 if self.activated_position is not None:
                     opts["cursor_position"] = dbus.Struct(
@@ -291,7 +293,7 @@ def Enable(self, session_handle, options, sender):
                 def send_deactivated():
                     opts = {}
                     if current_eis_serial:
-                        opts["serial"] = dbus.UInt32(
+                        opts["activation_id"] = dbus.UInt32(
                             current_eis_serial, variant_level=1
                         )
 

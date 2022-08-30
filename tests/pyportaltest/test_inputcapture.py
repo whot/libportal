@@ -488,18 +488,21 @@ class TestInputCapture(PortalTest):
 
         assert session_activated_signal_received
         assert list(signal_activated_options.keys()) == [
-            "serial",
+            "activation_id",
             "cursor_position",
             "barrier_id",
         ]
         assert signal_activated_options["barrier_id"] == 1
         assert signal_activated_options["cursor_position"] == (10.0, 20.0)
-        assert signal_activated_options["serial"] == 123
+        assert signal_activated_options["activation_id"] == 123
 
         assert session_deactivated_signal_received
-        assert list(signal_deactivated_options.keys()) == ["serial", "cursor_position"]
+        assert list(signal_deactivated_options.keys()) == [
+            "activation_id",
+            "cursor_position",
+        ]
         assert signal_deactivated_options["cursor_position"] == (20.0, 30.0)
-        assert signal_deactivated_options["serial"] == 123
+        assert signal_deactivated_options["activation_id"] == 123
 
     def test_zones_changed(self):
         """
